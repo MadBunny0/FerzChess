@@ -1,16 +1,20 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
+@csrf_exempt
 def move_piece(request):
     if request.method == 'POST':
-        # Получаем данные о ходе из тела POST-запроса
-        data = request.POST  # или request.body, в зависимости от формата данных
+        # Чтение и разбор JSON-данных из тела запроса
+        data = json.loads(request.body.decode('utf-8'))
+        position = data.get('position')  # Получаем координаты ячейки
 
-        # Выполняем логику обработки хода
-        # Например, сохраняем информацию о ходе в базе данных или обновляем игровое состояние
+        # Выполняем какую-то логику для обработки хода, например, выводим координаты ячейки
+        print('Ход на позицию:', position)
 
-        # Возвращаем успешный JSON-ответ
-        return JsonResponse({'success': True, 'message': 'Ход успешно обработан'})
+        # Возвращаем JSON-ответ
+        return JsonResponse({'success': True, 'message': 'Ход успешно выполнен', "data":data})
     else:
-        # Если запрос не является POST-запросом, возвращаем JSON-ответ с ошибкой
-        return JsonResponse({'success': False, 'message': 'Метод не разрешен'})
+        # Если метод запроса не POST, возвращаем ошибку
+        return JsonResponse({'success': False, 'message': 'Метод не поддерживается'})
