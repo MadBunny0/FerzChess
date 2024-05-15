@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шахматная доска</title>
+    <style>
+        /* Стили для ячеек шахматной доски */
+        #chessboard {
+            display: flex;
+            flex-wrap: wrap;
+            width: 400px; /* Регулируйте размеры доски по вашему усмотрению */
+            height: 400px;
+        }
+        .cell {
+            width: 50px;
+            height: 50px;
+            border: 1px solid black;
+            box-sizing: border-box;
+        }
+        .white {
+            background-color: #f0d9b5; /* Белая ячейка */
+        }
+        .black {
+            background-color: #b58863; /* Черная ячейка */
+        }
+    </style>
+</head>
+<body>
+
+<div id="chessboard">
+    <!-- Создание шахматной доски -->
+    <!-- Черные и белые ячейки будут иметь разные классы для стилизации -->
+    <!-- Добавляем data-атрибуты для хранения координат ячейки -->
+    <!-- Например, data-row="1" и data-column="1" для верхнего левого угла -->
+    <!-- Добавляем класс cell для обработки событий клика -->
+    <!-- Каждая ячейка будет иметь уникальный id, например, cell-1-1 для верхнего левого угла -->
+    <!-- В данном примере просто создаются пустые ячейки -->
+    <!-- Можно использовать этот код или создать шахматную доску другим способом -->
+
+    <!-- Первый ряд -->
+    <div class="cell white" id="cell-1-1" data-row="1" data-column="1"></div>
+    <div class="cell black" id="cell-1-2" data-row="1" data-column="2"></div>
+    <div class="cell white" id="cell-1-3" data-row="1" data-column="3"></div>
+    <div class="cell black" id="cell-1-4" data-row="1" data-column="4"></div>
+    <div class="cell white" id="cell-1-5" data-row="1" data-column="5"></div>
+    <div class="cell black" id="cell-1-6" data-row="1" data-column="6"></div>
+    <div class="cell white" id="cell-1-7" data-row="1" data-column="7"></div>
+    <div class="cell black" id="cell-1-8" data-row="1" data-column="8"></div>
+
+    <!-- Второй ряд -->
+    <div class="cell black" id="cell-2-1" data-row="2" data-column="1"></div>
+    <div class="cell white" id="cell-2-2" data-row="2" data-column="2"></div>
+    <div class="cell black" id="cell-2-3" data-row="2" data-column="3"></div>
+    <div class="cell white" id="cell-2-4" data-row="2" data-column="4"></div>
+    <div class="cell black" id="cell-2-5" data-row="2" data-column="5"></div>
+    <div class="cell white" id="cell-2-6" data-row="2" data-column="6"></div>
+    <div class="cell black" id="cell-2-7" data-row="2" data-column="7"></div>
+    <div class="cell white" id="cell-2-8" data-row="2" data-column="8"></div>
+
+    <!-- Третий ряд -->
+    <div class="cell white" id="cell-3-1" data-row="3" data-column="1"></div>
+    <div class="cell black" id="cell-3-2" data-row="3" data-column="2"></div>
+    <div class="cell white" id="cell-3-3" data-row="3" data-column="3"></div>
+    <div class="cell black" id="cell-3-4" data-row="3" data-column="4"></div>
+    <div class="cell white" id="cell-3-5" data-row="3" data-column="5"></div>
+    <div class="cell black" id="cell-3-6" data-row="3" data-column="6"></div>
+    <div class="cell white" id="cell-3-7" data-row="3" data-column="7"></div>
+    <div class="cell black" id="cell-3-8" data-row="3" data-column="8"></div>
+
+    <!-- Четвертый ряд -->
+    <div class="cell black" id="cell-4-1" data-row="4" data-column="1"></div>
+    <div class="cell white" id="cell-4-2" data-row="4" data-column="2"></div>
+    <div class="cell black" id="cell-4-3" data-row="4" data-column="3"></div>
+    <div class="cell white" id="cell-4-4" data-row="4" data-column="4"></div>
+    <div class="cell black" id="cell-4-5" data-row="4" data-column="5"></div>
+    <div class="cell white" id="cell-4-6" data-row="4" data-column="6"></div>
+    <div class="cell black" id="cell-4-7" data-row="4" data-column="7"></div>
+    <div class="cell white" id="cell-4-8" data-row="4" data-column="8"></div>
+
+    <!-- Пятый ряд -->
+    <div class="cell white" id="cell-5-1" data-row="5" data-column="1"></div>
+    <div class="cell black" id="cell-5-2" data-row="5" data-column="2"></div>
+    <div class="cell white" id="cell-5-3" data-row="5" data-column="3"></div>
+    <div class="cell black" id="cell-5-4" data-row="5" data-column="4"></div>
+    <div class="cell white" id="cell-5-5" data-row="5" data-column="5"></div>
+    <div class="cell black" id="cell-5-6" data-row="5" data-column="6"></div>
+    <div class="cell white" id="cell-5-7" data-row="5" data-column="7"></div>
+    <div class="cell black" id="cell-5-8" data-row="5" data-column="8"></div>
+
+    <!-- Шестой ряд -->
+    <div class="cell black" id="cell-6-1" data-row="6" data-column="1"></div>
+    <div class="cell white" id="cell-6-2" data-row="6" data-column="2"></div>
+    <div class="cell black" id="cell-6-3" data-row="6" data-column="3"></div>
+    <div class="cell white" id="cell-6-4" data-row="6" data-column="4"></div>
+    <div class="cell black" id="cell-6-5" data-row="6" data-column="5"></div>
+    <div class="cell white" id="cell-6-6" data-row="6" data-column="6"></div>
+    <div class="cell black" id="cell-6-7" data-row="6" data-column="7"></div>
+    <div class="cell white" id="cell-6-8" data-row="6" data-column="8"></div>
+
+    <!-- Седьмой ряд -->
+    <div class="cell white" id="cell-7-1" data-row="7" data-column="1"></div>
+    <div class="cell black" id="cell-7-2" data-row="7" data-column="2"></div>
+    <div class="cell white" id="cell-7-3" data-row="7" data-column="3"></div>
+    <div class="cell black" id="cell-7-4" data-row="7" data-column="4"></div>
+    <div class="cell white" id="cell-7-5" data-row="7" data-column="5"></div>
+    <div class="cell black" id="cell-7-6" data-row="7" data-column="6"></div>
+    <div class="cell white" id="cell-7-7" data-row="7" data-column="7"></div>
+    <div class="cell black" id="cell-7-8" data-row="7" data-column="8"></div>
+
+    <!-- Восьмой ряд -->
+    <div class="cell black" id="cell-8-1" data-row="8" data-column="1"></div>
+    <div class="cell white" id="cell-8-2" data-row="8" data-column="2"></div>
+    <div class="cell black" id="cell-8-3" data-row="8" data-column="3"></div>
+    <div class="cell white" id="cell-8-4" data-row="8" data-column="4"></div>
+    <div class="cell black" id="cell-8-5" data-row="8" data-column="5"></div>
+    <div class="cell white" id="cell-8-6" data-row="8" data-column="6"></div>
+    <div class="cell black" id="cell-8-7" data-row="8" data-column="7"></div>
+    <div class="cell white" id="cell-8-8" data-row="8" data-column="8"></div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Обработчик события клика на ячейке шахматной доски
+        document.querySelectorAll('.cell').forEach(function(cell) {
+            cell.addEventListener('click', function() {
+                // Получаем координаты ячейки из data-атрибутов
+                const row = cell.dataset.row;
+                const column = cell.dataset.column;
+                // Отправляем запрос на сервер
+                sendChessMove(row, column);
+            });
+        });
+
+        // Функция для отправки запроса на сервер
+        function sendChessMove(row, column) {
+            // Формируем данные для отправки
+            const data = {
+                position: [row, column] // Координаты ячейки
+            };
+
+            // Отправляем POST-запрос на сервер
+            fetch("http://127.0.0.1:8003/move_piece/", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Response:', data);
+                // Дополнительная обработка ответа сервера здесь
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
