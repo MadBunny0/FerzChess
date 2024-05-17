@@ -31,7 +31,6 @@
     </style>
 </head>
 <body>
-
 <div id="chessboard">
     <!-- Создание шахматной доски -->
     <!-- Черные и белые ячейки будут иметь разные классы для стилизации -->
@@ -123,59 +122,57 @@
     <div class="cell white" id="cell-8-8" data-row="8" data-column="8"></div>
 </div>
 
-<form id="form">
-    <input type="text" name="message"/>
-</form>
-
-<div id="messages"></div>
 
 <script type="text/javascript">
-    let url = `ws://${window.location.host}/ws/socket-server/`
-
-    const chatSocket = new WebSocket(url)
-
-    chatSocket.onmessage = function(e){
-        let data = JSON.parse(e.data)
-        console.log('Data:', data)
-
-        if(data.type === 'chat'){
-            let messages = document.getElementById('messages')
-
-            messages.insertAdjacentHTML('beforeend', `<div>
-                                    <p>${data.message}</p>
-                                </div>`)
-        }
-    }
-
-    let form = document.getElementById('form')
-    form.addEventListener('submit', (e)=> {
-        e.preventDefault()
-        let message = e.target.message.value 
-        chatSocket.send(JSON.stringify({
-            'message':message
-        }))
-        form.reset()
-    })
-
     document.addEventListener('DOMContentLoaded', function() {
+        let url = `ws://${window.location.host}/ws/socket-server/`;
+        const chessSocket = new WebSocket(url);
+
         // Обработчик события клика на ячейке шахматной доски
         document.querySelectorAll('.cell').forEach(function(cell) {
             cell.addEventListener('click', function() {
                 // Получаем координаты ячейки из data-атрибутов
                 const row = cell.dataset.row;
                 const column = cell.dataset.column;
+
                 // Отправляем запрос на сервер
                 sendChessMove(row, column);
 
-                // Очищаем все ячейки от ферзей перед добавлением нового ферзя
+
+                // Отправляем сообщение через WebSocket
+                chessSocket.send(JSON.stringify({
+                    'row': row,
+                    'column': column
+                }));
+            });
+        });
+
+
+        chessSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            
+            if (data.type === 'positions') {
+                const positions = data.positions;
+
+                // Очищаем все ячейки от ферзей перед добавлением новых ферзей
                 document.querySelectorAll('.cell').forEach(function(cell) {
                     cell.textContent = '';
                 });
 
-                // Добавляем ферзя в выбранную ячейку
-                cell.textContent = '♛';  // Символ ферзя
-            });
-        });
+                // Добавляем ферзей в соответствующие ячейки
+                positions.forEach((row, column) => {
+                    const cellId = `cell-${row + 1}-${column + 1}`;
+                    const cell = document.getElementById(cellId);
+                    if (cell) {
+                        cell.textContent = '♛';  // Символ ферзя
+                    }
+                });
+            }
+        };
+
+        chessSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
 
         // Функция для отправки запроса на сервер
         function sendChessMove(row, column) {
@@ -183,9 +180,11 @@
             const data = {
                 position: [row, column] // Координаты ячейки
             };
+            // Извлекаем row и column из объекта data
+            const [extractedRow, extractedColumn] = data.position;
 
             // Отправляем POST-запрос на сервер
-            fetch("http://127.0.0.1:8003/move_piece/", {
+            fetch(`http://127.0.0.1:8003/move_piece/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

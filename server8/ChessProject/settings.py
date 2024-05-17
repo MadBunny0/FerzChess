@@ -20,33 +20,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-p9jz+0*)ad@sn+(oj)ki(zf(t2qi^7)cts04%79381k-bka&4r'
+SECRET_KEY = 'django-insecure-^fm7ld*og+m!c%xmjc+aaqfb(&@w8ksktr$f$^x5v^^02h8^zk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = []
 
-CORS_ORIGIN_WHITELIST = [
-    'http://127.0.0.1:8001',
-    'http://127.0.0.1:8002',
-    'http://127.0.0.1:8003',
-    'http://127.0.0.1:8004',
-    'http://127.0.0.1:8005',
-    'http://127.0.0.1:8006',
-    'http://127.0.0.1:8007',
-    'http://127.0.0.1:8008',
-]
-CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:8001',
-    'http://127.0.0.1:8002',
-    'http://127.0.0.1:8003',
-    'http://127.0.0.1:8004',
-    'http://127.0.0.1:8005',
-    'http://127.0.0.1:8006',
-    'http://127.0.0.1:8007',
-    'http://127.0.0.1:8008',
-]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -56,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ChessApp'
 ]
 
 MIDDLEWARE = [
@@ -67,7 +47,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'ChessProject.urls'
@@ -90,7 +69,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ChessProject.wsgi.application'
 
-APPEND_SLASH = False
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
