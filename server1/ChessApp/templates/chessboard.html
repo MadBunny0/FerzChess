@@ -159,14 +159,13 @@
                     cell.textContent = '';
                 });
 
-                // Добавляем ферзей в соответствующие ячейки
-                positions.forEach((row, column) => {
-                    const cellId = `cell-${row + 1}-${column + 1}`;
-                    const cell = document.getElementById(cellId);
-                    if (cell) {
-                        cell.textContent = '♛';  // Символ ферзя
-                    }
-                });
+
+                const cellId = `cell-${positions.row}-${positions.col}`;
+                const cell = document.getElementById(cellId);
+                if (cell) {
+                    cell.textContent = '♛';  // Символ ферзя
+                }
+
             }
         };
 
