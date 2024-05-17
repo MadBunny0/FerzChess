@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 def home(request):
     return render(request, 'chessboard.html')
+
 @csrf_exempt
 def move_piece(request):
     if request.method == 'POST':

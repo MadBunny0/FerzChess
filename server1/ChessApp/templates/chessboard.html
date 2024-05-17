@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Шахматная доска</title>
     <style>
-        /* Стили для ячеек шахматной доски */
         #chessboard {
-            display: flex;
-            flex-wrap: wrap;
-            width: 400px; /* Регулируйте размеры доски по вашему усмотрению */
+            display: grid;
+            grid-template-columns: repeat(8, 50px);
+            grid-template-rows: repeat(8, 50px);
+            width: 400px;
             height: 400px;
         }
         .cell {
@@ -17,12 +17,16 @@
             height: 50px;
             border: 1px solid black;
             box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;  /* Увеличенный размер шрифта для ферзя */
         }
         .white {
-            background-color: #f0d9b5; /* Белая ячейка */
+            background-color: #f0d9b5;
         }
         .black {
-            background-color: #b58863; /* Черная ячейка */
+            background-color: #b58863;
         }
     </style>
 </head>
@@ -119,7 +123,40 @@
     <div class="cell white" id="cell-8-8" data-row="8" data-column="8"></div>
 </div>
 
-<script>
+<form id="form">
+    <input type="text" name="message"/>
+</form>
+
+<div id="messages"></div>
+
+<script type="text/javascript">
+    let url = `ws://${window.location.host}/ws/socket-server/`
+
+    const chatSocket = new WebSocket(url)
+
+    chatSocket.onmessage = function(e){
+        let data = JSON.parse(e.data)
+        console.log('Data:', data)
+
+        if(data.type === 'chat'){
+            let messages = document.getElementById('messages')
+
+            messages.insertAdjacentHTML('beforeend', `<div>
+                                    <p>${data.message}</p>
+                                </div>`)
+        }
+    }
+
+    let form = document.getElementById('form')
+    form.addEventListener('submit', (e)=> {
+        e.preventDefault()
+        let message = e.target.message.value 
+        chatSocket.send(JSON.stringify({
+            'message':message
+        }))
+        form.reset()
+    })
+
     document.addEventListener('DOMContentLoaded', function() {
         // Обработчик события клика на ячейке шахматной доски
         document.querySelectorAll('.cell').forEach(function(cell) {
@@ -129,6 +166,14 @@
                 const column = cell.dataset.column;
                 // Отправляем запрос на сервер
                 sendChessMove(row, column);
+
+                // Очищаем все ячейки от ферзей перед добавлением нового ферзя
+                document.querySelectorAll('.cell').forEach(function(cell) {
+                    cell.textContent = '';
+                });
+
+                // Добавляем ферзя в выбранную ячейку
+                cell.textContent = '♛';  // Символ ферзя
             });
         });
 
