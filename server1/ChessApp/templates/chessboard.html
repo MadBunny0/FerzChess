@@ -135,9 +135,15 @@
                 const row = cell.dataset.row;
                 const column = cell.dataset.column;
 
-                // Отправляем запрос на сервер
-                sendChessMove(row, column);
+                // Очищаем все ячейки от ферзей перед добавлением новых ферзей
+                document.querySelectorAll('.cell').forEach(function(cell) {
+                    cell.textContent = '';
+                });
 
+                // Отправляем запросы на все 8 серверов
+                for (let num_server = 1; num_server <= 8; num_server++) {
+                    sendChessMove(num_server, row, column);
+                }
 
                 // Отправляем сообщение через WebSocket
                 chessSocket.send(JSON.stringify({
@@ -155,9 +161,9 @@
                 const positions = data.positions;
 
                 // Очищаем все ячейки от ферзей перед добавлением новых ферзей
-                document.querySelectorAll('.cell').forEach(function(cell) {
-                    cell.textContent = '';
-                });
+                //document.querySelectorAll('.cell').forEach(function(cell) {
+                //    cell.textContent = '';
+                //});
 
 
                 const cellId = `cell-${positions.row}-${positions.col}`;
@@ -174,7 +180,7 @@
         };
 
         // Функция для отправки запроса на сервер
-        function sendChessMove(row, column) {
+        function sendChessMove(num_server, row, column) {
             // Формируем данные для отправки
             const data = {
                 position: [row, column] // Координаты ячейки
@@ -183,7 +189,7 @@
             const [extractedRow, extractedColumn] = data.position;
 
             // Отправляем POST-запрос на сервер
-            fetch(`http://127.0.0.1:8003/move_piece/`, {
+            fetch(`http://127.0.0.1:800${num_server}/move_piece/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
