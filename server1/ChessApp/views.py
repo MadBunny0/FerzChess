@@ -11,6 +11,9 @@ from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 
 
+request_counter = 0
+pos = []
+
 def home(request):
     return render(request, 'chessboard.html')
 
@@ -59,17 +62,24 @@ def move_piece(request):
 
 @csrf_exempt
 def process_positions(request):
+    global request_counter
+    global pos
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            channel_layer = get_channel_layer()
-            async_to_sync(channel_layer.group_send)(
-                'chess_game',
-                {
-                    'type': 'send_positions',
-                    'positions': data
-                }
-            )
+            pos.append(data)
+            request_counter += 1
+            if request_counter == 8:
+                channel_layer = get_channel_layer()
+                async_to_sync(channel_layer.group_send)(
+                    'chess_game',
+                    {
+                        'type': 'send_positions',
+                        'positions': pos
+                    }
+                )
+                request_counter = 0
+                pos = []
             return JsonResponse({'status': 'success', 'result': data})
         except json.JSONDecodeError:
             return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
